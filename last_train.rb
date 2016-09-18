@@ -6,11 +6,9 @@ API_KEY = ENV['API_KEY']
 
 def last_dwell(stop, from_datetime, to_datetime)
   url = "http://realtime.mbta.com/developer/api/v2.1/dwells?api_key=#{API_KEY}&format=json&stop=#{stop}&from_datetime=#{from_datetime}&to_datetime=#{to_datetime}"
-  # puts url
   uri = URI(url)
   response = Net::HTTP.get(uri)
   trains = JSON.parse(response)
-  # puts trains
 
   train = trains["dwell_times"] ? trains['dwell_times'].last : nil
   if train
@@ -35,13 +33,32 @@ end
 now = DateTime.now
 midnight_today = DateTime.new(now.year, now.month, now.day, 0, 0, 0, now.zone)
 
-stops = {
+core_stops = {
   'Park Street - to Ashmont/Braintree' => '70075',
   'Park Street - to Alewife' => '70076',
+  'Park Street - Green Line - B Branch Berth' => '70196',
+  'Park Street - Green Line - C Branch Berth' => '70197',
+  'Park Street - Green Line - D Branch Berth' => '70198',
+  'Park Street - Green Line - E Branch Berth' => '70199',
+  'Park Street - Green Line Eastbound' => '70200',
+  'Government Center - to Wonderland' => '70040',
+  'Downtown Crossing - to Forest Hills' => '70020',
+  'Downtown Crossing - to Oak Grove' => '70021',
 }
 
-stops.each do |description, code|
-  puts "Last trains each night for #{description}:"
+just_past_core_stops = {
+  'Aquarium - Outbound' => '70044',
+  'South Station - Outbound' => '70079',
+  'Charles/MGH - Outbound' => '70074',
+  'Chinatown - Outbound' => 70018,
+  'Haymarket - Orange Line Outbound' => 70025,
+  'Boylston - Outbound' => 70159,
+}
+
+all_stops = core_stops.merge(just_past_core_stops)
+
+all_stops.each do |description, code|
+  puts "Last trains each night for #{description} (stop id #{code}):"
   last_dwells_for_days(code, midnight_today, 30)
   puts
 end
