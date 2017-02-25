@@ -22,8 +22,8 @@ def last_dwell(stop, from_datetime, to_datetime)
 end
 
 def last_dwell_for_day(stop, midnight)
-  two_am = DateTime.new(midnight.year, midnight.month, midnight.day, 2, 0, 0, midnight.zone)
-  last_dwell(stop, midnight.to_time.to_i, two_am.to_time.to_i)
+  three_am = DateTime.new(midnight.year, midnight.month, midnight.day, 3, 0, 0, midnight.zone)
+  last_dwell(stop, midnight.to_time.to_i, three_am.to_time.to_i)
 end
 
 def last_dwells_for_days(stop, last_day_midnight, num_days)
