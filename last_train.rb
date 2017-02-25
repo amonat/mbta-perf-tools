@@ -17,7 +17,7 @@ def last_dwell(stop, from_datetime, to_datetime)
     dwell_time = train['dwell_time_sec']
     puts "#{train['route_id']}: #{arrival} to #{departure} (#{dwell_time} seconds)"
   else
-    puts "No data for trains between #{Time.at(from_datetime)} and #{Time.at(to_datetime)}"
+    puts "No data for trains between #{Time.at(from_datetime)} and #{Time.at(to_datetime)} (data from #{url})"
   end
 end
 
