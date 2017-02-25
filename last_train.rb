@@ -16,6 +16,8 @@ def last_dwell(stop, from_datetime, to_datetime)
     departure = Time.at(train['dep_dt'].to_i)
     dwell_time = train['dwell_time_sec']
     puts "#{train['route_id']}: #{arrival} to #{departure} (#{dwell_time} seconds)"
+  else
+    puts "No data for trains between #{Time.at(from_datetime)} and #{Time.at(to_datetime)}"
   end
 end
 
@@ -29,6 +31,8 @@ def last_dwells_for_days(stop, last_day_midnight, num_days)
     last_dwell_for_day(stop, last_day_midnight - i)
   end
 end
+
+raise "Must set ENV[API_KEY]" unless ENV['API_KEY']
 
 now = DateTime.now
 midnight_today = DateTime.new(now.year, now.month, now.day, 0, 0, 0, now.zone)
